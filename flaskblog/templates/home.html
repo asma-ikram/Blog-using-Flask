@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- code block  using variable "posts"-->
+{% for post in posts.items %}
+<article class="media content-section">
+  <!-- to add user's pic with the posts -->
+  <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+  <div class="media-body">
+    <div class="article-metadata">
+      <!-- <a class="mr-2" href="#">{{ post.author }}</a> -->
+      <!-- post.author displays everything about the author, we dont want that. -->
+      <a class="mr-2" href="#">{{ post.author.username }}</a>
+      <!-- <small class="text-muted">{{ post.date_posted }}</small> -->
+      <!-- date_posted prints out the data and time as well, we only want date -->
+      <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+      <!-- strftime are just formatting for data time -->
+    </div>
+    <h2><a class="article-title" href="{{url_for('post', post_id=post.id)}}">{{ post.title }}</a></h2>
+    <!-- on clicking title, we should go to the post's url -->
+    <p class="article-content">{{ post.content }}</p>
+  </div>
+</article>
+{% endfor %}
+<!-- loop to loop over thru pages -->
+<!-- the edges show how many page links are showed -->
+{% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+  {% if page_num %}
+  <!-- if the page no. is the page we afre currently on, we want it to look a bit different -->
+    {% if posts.page == page_num %}
+      <a class=""btn btn-info mb-4" href="={{ url_for('home', page=page_num)}}>{{ page_num }}</a>
+    <!-- we have put a link to the pages -->
+    {% else %}
+      <a class=""btn btn-outline-info mb-4" href="={{ url_for('home', page=page_num)}}>{{ page_num }}</a>
+    {% endif %}
+  {% else %}
+    ...
+    <!-- elipses -->
+  {% endif %}
+{% endfor %}
+{% endblock content %}
+<!-- writing name of the block at end is optional -->

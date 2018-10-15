@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+  <form method="post" action="">
+    <!-- hidden_tag adds something called a CSRF token or a cross-site request forgery token -> part of protection using secret key -->
+    {{ form.hidden_tag() }}
+    <!-- formgroup is from bootstrap -->
+    <fieldset class="form-group">
+      <!-- mb4 is margin bottom of 4 -->
+      <legend class="border-bottom mb-4">
+        Login
+      </legend>
+      <!-- all the forms shud nuse variable names that you specified in the login.html -->
+
+      </div>
+      <div class="form-group">
+        {{ form.email.label(class="form-control-label")}}
+
+        <!-- VALIDATION -->
+        {% if form.email.errors %}
+          {{ form.email(class="form-control form-control-lg is-invalid")}}
+          <div class="invalid-feedback">
+            {% for error in form.email.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.email(class="form-control form-control-lg")}}
+        {% endif %}
+
+      </div>
+      <div class="form-group">
+        {{ form.password.label(class="form-control-label")}}
+
+        <!-- VALIDATION -->
+        {% if form.password.errors %}
+          {{ form.password(class="form-control form-control-lg is-invalid")}}
+          <div class="invalid-feedback">
+            {% for error in form.password.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.password(class="form-control form-control-lg")}}
+        {% endif %}
+
+      </div>
+      <!-- remember me check box-->
+      <div class="form-check">
+        {{ form.remember(class="form-check-input") }}
+        {{ form.remember.label(class="form-check-label") }}
+      </div>
+    </fieldset>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-outline-info")}}
+    </div>
+    <!-- forget password -->
+    <small class="text-muted ml-2">
+      <a href="{{ url_for('reset_request') }}">Forgot Password?</a>
+    </small>
+  </form>
+</div>
+<div class="border-top pt-3">
+  <small class="text-muted">
+    <!-- muted text is a bit faded -->
+    Need an Account? <a class="ml-2" href="{{ url_for('register')}}">Sign Up Now </a>
+    <!-- in url for we are not passing the route value, but the "def login" i.e function value -->
+  </small>
+</div>
+{% endblock content %}
